@@ -2,6 +2,7 @@
 import requests
 import re
 import sys
+from constants import estados
 
 
 def get_info(dados, numero):
@@ -39,7 +40,21 @@ except IndexError:
 
 r = requests.get(f'https://sisu-api-pcr.apps.mec.gov.br/api/v1/oferta/curso/{curso_id}')
 dados = r.json()
-output = ["Faculdade,\
+output = []
+print(output)
+for i in dados.keys():
+    if len(i) < 3:
+        sigla, codigo = get_info(dados, i)
+        dicionario = get_cortes(codigo)
+        # print(sigla, dicionario)  # DEBUG
+        linha = formata(sigla, dicionario)
+        print(linha)  # DEBUG
+        output.append(f'{linha}\n')
+
+output.sort(key = lambda sigla: sigla.split('-', maxsplit=2)[1])
+output.sort(key = lambda sigla: estados[sigla.split('-', maxsplit=2)[0]])
+
+output.insert(0, "Faculdade,\
 AC,\
 Escola Pública (L5),\
 Escola Pública + PPI (L6),\
@@ -55,16 +70,7 @@ Escola Pública + PP (L7),\
 Escola Pública + Indígenas (L8),\
 Escola Pública + PCD + PP (L15),\
 Escola Pública + PCD + PP  + Renda (L11),\
-Outros\n"]
-print(output)
-for i in dados.keys():
-    if len(i) < 3:
-        sigla, codigo = get_info(dados, i)
-        dicionario = get_cortes(codigo)
-        # print(sigla, dicionario)  # DEBUG
-        linha = formata(sigla, dicionario)
-        print(linha)  # DEBUG
-        output.append(f'{linha}\n')
+Outros\n")
 
 with open('notasFinal.csv', 'a') as f:
     for line in output: f.write(line)
