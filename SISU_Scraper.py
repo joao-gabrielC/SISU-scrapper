@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import requests
 import re
+import sys
 
 
 def get_info(dados, numero):
@@ -38,7 +39,7 @@ except IndexError:
 
 r = requests.get(f'https://sisu-api-pcr.apps.mec.gov.br/api/v1/oferta/curso/{curso_id}')
 dados = r.json()
-output = ("Faculdade,\
+output = ["Faculdade,\
 AC,\
 Escola Pública (L5),\
 Escola Pública + PPI (L6),\
@@ -54,7 +55,7 @@ Escola Pública + PP (L7),\
 Escola Pública + Indígenas (L8),\
 Escola Pública + PCD + PP (L15),\
 Escola Pública + PCD + PP  + Renda (L11),\
-Outros\n")
+Outros\n"]
 print(output)
 for i in dados.keys():
     if len(i) < 3:
@@ -63,7 +64,7 @@ for i in dados.keys():
         # print(sigla, dicionario)  # DEBUG
         linha = formata(sigla, dicionario)
         print(linha)  # DEBUG
-        output += ('%s\n' % (linha))
+        output.append(f'{linha}\n')
 
-with open('notasFinal.csv', 'w') as w:
-    w.write(output)
+with open('notasFinal.csv', 'a') as f:
+    for line in output: f.write(line)
