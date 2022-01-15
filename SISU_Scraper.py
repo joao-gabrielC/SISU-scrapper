@@ -31,8 +31,12 @@ def formata(sigla, dicionario):
     output = re.sub('\{.{1,2}\}', '-', output)
     return(output)
 
+try:
+    curso_id = sys.argv[1]
+except IndexError:
+    curso_id = 37 # Default é medicina
 
-r = requests.get('https://sisu-api-pcr.apps.mec.gov.br/api/v1/oferta/curso/37')
+r = requests.get(f'https://sisu-api-pcr.apps.mec.gov.br/api/v1/oferta/curso/{curso_id}')
 dados = r.json()
 output = ("Faculdade,\
 AC,\
