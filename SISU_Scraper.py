@@ -5,7 +5,7 @@ import sys
 
 
 def get_info(dados, numero):
-    sigla = dados[numero].get('sg_ies') + '-' + dados[numero].get('no_municipio_campus')
+    sigla = dados[numero].get('sg_uf_ies') + '-' + dados[numero].get('sg_ies') + '-' + dados[numero].get('no_municipio_campus')
     codigo = dados.get(numero).get('co_oferta')
     return (sigla, codigo)
 
