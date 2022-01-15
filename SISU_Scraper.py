@@ -6,22 +6,22 @@ from constants import estados
 
 
 def get_info(dados, numero):
-    sigla = dados[numero].get('sg_uf_ies') + '-' + dados[numero].get('sg_ies') + '-' + dados[numero].get('no_municipio_campus')
-    codigo = dados.get(numero).get('co_oferta')
+    sigla = f'{dados[numero]["sg_uf_ies"]}-{dados[numero]["sg_ies"]}-{dados[numero]["no_municipio_campus"]}'
+    codigo = dados[numero]['co_oferta']
     return (sigla, codigo)
 
 
 def get_cortes(codigo):
-    r=requests.get('https://sisu-api-pcr.apps.mec.gov.br/api/v1/oferta/%s/modalidades' % (codigo))
-    __data = r.json()
+    r=requests.get(f'https://sisu-api-pcr.apps.mec.gov.br/api/v1/oferta/{codigo}/modalidades')
+    data = r.json()
 
-    output = []
-    for i in __data['modalidades']:
-        output.append({'modalidade': i['no_concorrencia'].replace(',', '', 999),
+    out = []
+    for i in data['modalidades']:
+        out.append({'modalidade': i['no_concorrencia'].replace(',', '', 999),
                        'cod_concorr': i['co_concorrencia'],
                        'corte': i['nu_nota_corte']
                        })
-    return output
+    return out
 
 
 def formata(sigla, dicionario):
@@ -29,7 +29,8 @@ def formata(sigla, dicionario):
     for i in dicionario:
         if i['corte'] and int(i['cod_concorr'])<16 and int(i['cod_concorr'])!=12:
             output = output.replace("{" + i['cod_concorr'] + "}", i['corte'])
-        elif int(i['cod_concorr']) >= 16 or int(i['cod_concorr'] == 12): output += ',' + i['modalidade'] + ': ' + i['corte']
+        elif int(i['cod_concorr']) >= 16 or int(i['cod_concorr'] == 12):
+            output += ',' + i['modalidade'] + ': ' + i['corte']
     output = re.sub('\{.{1,2}\}', '-', output)
     return(output)
 
@@ -41,7 +42,6 @@ except IndexError:
 r = requests.get(f'https://sisu-api-pcr.apps.mec.gov.br/api/v1/oferta/curso/{curso_id}')
 dados = r.json()
 output = []
-print(output)
 for i in dados.keys():
     if len(i) < 3:
         sigla, codigo = get_info(dados, i)
