@@ -3,7 +3,6 @@ import requests
 import re
 import sys
 from constants import estados
-import datetime
 
 
 def get_info(dados, numero):
@@ -31,7 +30,7 @@ def formata(sigla, dicionario):
         if i['corte'] and int(i['cod_concorr'])<16 and int(i['cod_concorr'])!=12:
             output = output.replace("{" + i['cod_concorr'] + "}", i['corte'])
         elif int(i['cod_concorr']) >= 16 or int(i['cod_concorr'] == 12):
-            output += ',' + i['modalidade'] + ': ' + str(i['corte'])
+            output += ',' + i['modalidade'] + ': ' + i['corte']
     output = re.sub('\{.{1,2}\}', '-', output)
     return(output)
 
@@ -73,7 +72,5 @@ Escola Pública + PCD + PP (L15),\
 Escola Pública + PCD + PP  + Renda (L11),\
 Outros\n")
 
-now=datetime.datetime.now
-
-with open(f'notas{now.day}-{now.month}-{now.year}.csv', 'a') as f:
+with open('notasFinal.csv', 'a') as f:
     for line in output: f.write(line)
