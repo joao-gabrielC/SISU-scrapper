@@ -72,5 +72,7 @@ Escola Pública + PCD + PP (L15),\
 Escola Pública + PCD + PP  + Renda (L11),\
 Outros\n")
 
-with open('notasFinal.csv', 'a') as f:
+now=datetime.datetime.now()
+
+with open(f'notas{now.day}-{now.month}-{now.year}.csv', 'a') as f:
     for line in output: f.write(line)
