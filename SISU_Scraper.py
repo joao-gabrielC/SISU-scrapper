@@ -3,6 +3,9 @@ import requests
 import re
 import sys
 from constants import estados
+import datetime
+
+user_agent = {'User-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/109.0'}
 
 
 def get_info(dados, numero):
@@ -12,7 +15,7 @@ def get_info(dados, numero):
 
 
 def get_cortes(codigo):
-    r=requests.get(f'https://sisu-api-pcr.apps.mec.gov.br/api/v1/oferta/{codigo}/modalidades')
+    r=requests.get(f'https://sisu-api-pcr.apps.mec.gov.br/api/v1/oferta/{codigo}/modalidades', headers = user_agent)
     data = r.json()
 
     out = []
@@ -39,7 +42,7 @@ try:
 except IndexError:
     curso_id = 37 # Default é medicina
 
-r = requests.get(f'https://sisu-api-pcr.apps.mec.gov.br/api/v1/oferta/curso/{curso_id}')
+r = requests.get(f'https://sisu-api-pcr.apps.mec.gov.br/api/v1/oferta/curso/{curso_id}', headers = user_agent)
 dados = r.json()
 output = []
 for i in dados.keys():
