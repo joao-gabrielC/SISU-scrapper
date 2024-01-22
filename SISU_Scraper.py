@@ -9,7 +9,7 @@ user_agent = {'User-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0)
 
 
 def get_info(dados, numero):
-    sigla = f'{dados[numero]["sg_uf_ies"]}-{dados[numero]["sg_ies"]}-{dados[numero]["no_municipio_campus"]}'
+    sigla = f'{dados[numero]["sg_ies"]} {dados[numero]["no_municipio_campus"]}'
     codigo = dados[numero]['co_oferta']
     return (sigla, codigo)
 
@@ -22,7 +22,7 @@ def get_cortes(codigo):
     for i in data['modalidades']:
         out.append({'modalidade': i['no_concorrencia'].replace(',', '', 999),
                        'cod_concorr': i['co_concorrencia'],
-                       'corte': i['nu_nota_corte'],
+                       'corte': i['nu_nota_corte'] or '',
                        'cota': i['tp_cota'] or '',
                        'salario_minimo': i['tp_salario_minimo'] or ''
                        })
@@ -79,8 +79,7 @@ for i in dados.keys():
         linha = formata(sigla, dicionario)
         output.append(f'{linha}\n')
 
-output.sort(key = lambda sigla: sigla.split('-', maxsplit=2)[1])
-output.sort(key = lambda sigla: estados[sigla.split('-', maxsplit=2)[0]])
+output.sort()
 
 output.insert(0, "Faculdade,\
                 AC,\
