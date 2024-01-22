@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+api_url = "https://sisu-api.sisu.mec.gov.br/api/v1"
+
 estados={"RR":0,\
          "AP":1,\
          "AM":2,\
