@@ -2,7 +2,7 @@
 import requests
 import re
 import sys
-from constants import estados, api_url
+from constants import api_url
 import datetime
 
 user_agent = {'User-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/109.0'}
