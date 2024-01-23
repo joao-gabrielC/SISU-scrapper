@@ -46,7 +46,7 @@ def formata(sigla, dicionario):
     for i in dicionario:  
          # Replace ampla from the start so we don't have problems with null values
         if i["cod_concorr"] == "0":            
-            output.replace('{(0, 0)}', i['corte'])
+            output = output.replace('{(0, 0)}', i['corte'])
         else:
             try: 
                 co_modalidade = (titulo_cota_dict[i['cota']], salario_minimo_dict[i['salario_minimo']])
