@@ -5,4 +5,4 @@ pelo Ministério da Educação, disponibilizados no endereço
  https://sisu-api-pcr.apps.mec.gov.br/ e acessados por qualquer navegador 
 que utilize a plataforma. Programa feito únicamente para fins educativos.
 
-Última atualização: SISU 2023/1
+Última atualização: SISU 2025/1
